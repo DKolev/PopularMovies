@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="error_message">No internet connection. Please try again!</string>
+    <string name="popular_movies_on_themoviedb_org">POPULAR movies on themoviedb.org</string>
+    <string name="top_rated_movies_on_the_moviedb_org">TOP RATED movies on themoviedb.org</string>
+    <string name="problem_loading_movie_poster">Problem loading movie poster</string>
+    <string name="release_date">Release Date:</string>
+    <string name="rating">Rating:</string>
+    <string name="overview">Overview:</string>
+</resources>

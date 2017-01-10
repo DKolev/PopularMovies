@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Defining some variables
+    // Binding views with ButterKnife
     @BindView(R.id.error_message) TextView mErrorMessageTextView;
     @BindView(R.id.loading_indicator) ProgressBar mLoadingIndicator;
     @BindView(R.id.sort_option) TextView mSortOption;

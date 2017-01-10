@@ -25,6 +25,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     final static String POSTER_SIZE = "w500";
 
+    // Binding views with ButterKnife
     @BindView(R.id.movie_title) TextView mTitleTextView;
     @BindView(R.id.movie_release_data) TextView mReleaseDateTextView;
     @BindView(R.id.movie_poster) ImageView mPosterImageView;

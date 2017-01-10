@@ -48,15 +48,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        // Getting a reference to the Sort option TextView in the Option menu
-//        mSortOption = (TextView) findViewById(R.id.sort_option);
-//        // Getting a reference to the Error message TextView
-//        mErrorMessageTextView = (TextView) findViewById(R.id.error_message);
-//        // Getting a reference to the Loading indicator ProgressBar
-//        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-//        // Getting a reference to the RecyclerView from xml.
-//        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         // Setting a fixed size for the child layout
         mRecyclerView.setHasFixedSize(true);
         // Getting the current orientation of the device

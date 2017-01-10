@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -52,12 +53,22 @@ public class MainActivity extends AppCompatActivity {
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
         // Getting a reference to the RecyclerView from xml.
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         // Setting a fixed size for the child layout
         mRecyclerView.setHasFixedSize(true);
-        // Creating a new layoutmanager with GridLayout and 3 columns
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,3);
-        // Setting the layoutmanager to the RecyclerView
-        mRecyclerView.setLayoutManager(layoutManager);
+        // Getting the current orientation of the device
+        int orientation = this.getResources().getConfiguration().orientation;
+        // Setting a GridLayout with 3 columns if the orientation is PORTRAIT
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Creating a new layoutManagerPortrait with GridLayout and 3 columns
+            RecyclerView.LayoutManager layoutManagerPortrait = new GridLayoutManager(this,3);
+            // Setting the layoutManagerPortrait to the RecyclerView
+            mRecyclerView.setLayoutManager(layoutManagerPortrait);
+        } else {
+            // If the orientation is LANDSCAPE, I set a GridLayout with 5 columns
+            RecyclerView.LayoutManager layoutManagerLandscape = new GridLayoutManager(this, 5);
+            mRecyclerView.setLayoutManager(layoutManagerLandscape);
+        }
         // Trying to add some slide animations (without any success) :(
         mRecyclerView.setItemAnimator(new SlideInDownAnimator());
 

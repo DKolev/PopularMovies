@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Kolev on 02-Jan-17.
  */
@@ -22,30 +25,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     final static String POSTER_SIZE = "w500";
 
-    private TextView mTitleTextView;
-    private TextView mReleaseDateTextView;
-    private ImageView mPosterImageView;
-    private TextView mVoteAverageTextView;
-    private TextView mMovieOverviewTextView;
-    private ProgressBar mProgressBar;
-    private TextView mErrorLoadingPoster;
+    @BindView(R.id.movie_title) TextView mTitleTextView;
+    @BindView(R.id.movie_release_data) TextView mReleaseDateTextView;
+    @BindView(R.id.movie_poster) ImageView mPosterImageView;
+    @BindView(R.id.movie_vote_average) TextView mVoteAverageTextView;
+    @BindView(R.id.movie_plot_synopsis) TextView mMovieOverviewTextView;
+    @BindView(R.id.poster_loading_indicator) ProgressBar mProgressBar;
+    @BindView(R.id.error_loading_poster) TextView mErrorLoadingPoster;
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details);
+        ButterKnife.bind(this);
 
-        // Finding the corresponding views in the xml
-        mTitleTextView = (TextView) findViewById(R.id.movie_title);
-        mReleaseDateTextView = (TextView) findViewById(R.id.movie_release_data);
-        mPosterImageView = (ImageView) findViewById(R.id.movie_poster);
-        mVoteAverageTextView = (TextView) findViewById(R.id.movie_vote_average);
-        mMovieOverviewTextView = (TextView) findViewById(R.id.movie_plot_synopsis);
-        mProgressBar = (ProgressBar) findViewById(R.id.poster_loading_indicator);
+        // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
-        mErrorLoadingPoster = (TextView) findViewById(R.id.error_loading_poster);
-
 
         // Getting the information about the movie from the MainActivity
         Bundle extras = getIntent().getExtras();

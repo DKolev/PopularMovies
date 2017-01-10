@@ -12,6 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Kolev on 28-Dec-16.
  */
@@ -23,9 +26,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private ArrayList<Movie> movie;
     private OnItemClickListener listener;
 
-    final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+    private final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
 
-    final static String POSTER_SIZE = "w185";
+    private final static String POSTER_SIZE = "w185";
 
     private String posterURL;
 
@@ -93,20 +96,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
      * Cache of the children views for a movie grid item.
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private TextView release_date;
-        private ImageView poster;
-        private TextView vote_average;
-        private TextView plot_synopsis;
+        @BindView(R.id.movie_title) TextView title;
+        @BindView(R.id.movie_release_data) TextView release_date;
+        @BindView(R.id.movie_poster) ImageView poster;
+        @BindView(R.id.movie_vote_average) TextView vote_average;
+        @BindView(R.id.movie_plot_synopsis) TextView plot_synopsis;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
 
-            title = (TextView) itemView.findViewById(R.id.movie_title);
-            release_date = (TextView) itemView.findViewById(R.id.movie_release_data);
-            poster = (ImageView) itemView.findViewById(R.id.movie_poster);
-            vote_average = (TextView) itemView.findViewById(R.id.movie_vote_average);
-            plot_synopsis = (TextView) itemView.findViewById(R.id.movie_plot_synopsis);
             // Setting an OnClickListener on the poster image
             poster.setOnClickListener(new View.OnClickListener() {
                 @Override

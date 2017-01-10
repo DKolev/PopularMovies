@@ -22,6 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,11 +34,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     // Defining some variables
-    private TextView mErrorMessageTextView;
-    private ProgressBar mLoadingIndicator;
-    private TextView mSortOption;
+    @BindView(R.id.error_message) TextView mErrorMessageTextView;
+    @BindView(R.id.loading_indicator) ProgressBar mLoadingIndicator;
+    @BindView(R.id.sort_option) TextView mSortOption;
 
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private MovieAdapter mAdapter;
     private ArrayList<Movie> movie;
 
@@ -44,15 +46,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        // Getting a reference to the Sort option TextView in the Option menu
-        mSortOption = (TextView) findViewById(R.id.sort_option);
-        // Getting a reference to the Error message TextView
-        mErrorMessageTextView = (TextView) findViewById(R.id.error_message);
-        // Getting a reference to the Loading indicator ProgressBar
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        // Getting a reference to the RecyclerView from xml.
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        // Getting a reference to the Sort option TextView in the Option menu
+//        mSortOption = (TextView) findViewById(R.id.sort_option);
+//        // Getting a reference to the Error message TextView
+//        mErrorMessageTextView = (TextView) findViewById(R.id.error_message);
+//        // Getting a reference to the Loading indicator ProgressBar
+//        mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+//        // Getting a reference to the RecyclerView from xml.
+//        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         // Setting a fixed size for the child layout
         mRecyclerView.setHasFixedSize(true);

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -99,7 +98,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         private ImageView poster;
         private TextView vote_average;
         private TextView plot_synopsis;
-        private ProgressBar progressBar;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -107,7 +105,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             title = (TextView) itemView.findViewById(R.id.movie_title);
             release_date = (TextView) itemView.findViewById(R.id.movie_release_data);
             poster = (ImageView) itemView.findViewById(R.id.movie_poster);
-//            progressBar = (ProgressBar) itemView.findViewById(R.id.loading_indicator);
             vote_average = (TextView) itemView.findViewById(R.id.movie_vote_average);
             plot_synopsis = (TextView) itemView.findViewById(R.id.movie_plot_synopsis);
             // Setting an OnClickListener on the poster image

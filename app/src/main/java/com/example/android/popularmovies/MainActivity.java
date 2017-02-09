@@ -127,19 +127,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-                        // Packing everything into a bundle
-                        Bundle extras = new Bundle();
+                        // Packing everything together after making the Movie object Parcelable
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
                         String movieVoteAverage = movie.get(position).getVote_average();
                         String movieOverview = movie.get(position).getOverview();
-                        extras.putString("MOVIE_TITLE", movieName);
-                        extras.putString("RELEASE_DATE", movieReleaseDate);
-                        extras.putString("POSTER", moviePoster);
-                        extras.putString("VOTE_AVERAGE", movieVoteAverage);
-                        extras.putString("OVERVIEW", movieOverview);
-                        intent.putExtras(extras);
+                        Movie movieDetails = new Movie(movieName, movieReleaseDate, moviePoster, movieVoteAverage,
+                                movieOverview);
+                        intent.putExtra("movieDetails", movieDetails);
                         startActivity(intent);
                     }
                 });
@@ -151,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             // This is called if the request is failed
             @Override
             public void onFailure(Call<JSONResponse> call, Throwable t) {
+                showErrorMessage();
                 Log.d("Error", t.getMessage());
             }
         });
@@ -201,19 +198,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-                        // Packing everything into a bundle
-                        Bundle extras = new Bundle();
+                        // Packing everything together after making the Movie object Parcelable
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
                         String movieVoteAverage = movie.get(position).getVote_average();
                         String movieOverview = movie.get(position).getOverview();
-                        extras.putString("MOVIE_TITLE", movieName);
-                        extras.putString("RELEASE_DATE", movieReleaseDate);
-                        extras.putString("POSTER", moviePoster);
-                        extras.putString("VOTE_AVERAGE", movieVoteAverage);
-                        extras.putString("OVERVIEW", movieOverview);
-                        intent.putExtras(extras);
+                        Movie movieDetails = new Movie(movieName, movieReleaseDate, moviePoster, movieVoteAverage,
+                                movieOverview);
+                        intent.putExtra("movieDetails", movieDetails);
                         startActivity(intent);
                     }
                 });
@@ -224,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
             // This is called if the request is failed
             @Override
             public void onFailure(Call<JSONResponse> call, Throwable t) {
+                showErrorMessage();
                 Log.d("Error", t.getMessage());
             }
 
@@ -246,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessageTextView.setVisibility(View.VISIBLE);
         mSortOption.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
     }
 
 
@@ -261,10 +256,16 @@ public class MainActivity extends AppCompatActivity {
         if (itemWasClicked == R.id.sort_by_popularity) {
             loadJSONPopularMovies();
             mSortOption.setText(R.string.popular_movies_on_themoviedb_org);
+            mSortOption.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mErrorMessageTextView.setVisibility(View.GONE);
             return true;
         } else if (itemWasClicked == R.id.sort_by_rating) {
             loadJSONTopRatedMovies();
             mSortOption.setText(R.string.top_rated_movies_on_the_moviedb_org);
+            mSortOption.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mErrorMessageTextView.setVisibility(View.GONE);
             return true;
         }
         return super.onOptionsItemSelected(item);

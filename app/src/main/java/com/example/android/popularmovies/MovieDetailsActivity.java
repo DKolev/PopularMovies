@@ -45,19 +45,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.VISIBLE);
 
         // Getting the information about the movie from the MainActivity
-        Bundle extras = getIntent().getExtras();
-        String movieTitle = extras.getString("MOVIE_TITLE");
-        String movieReleaseDate = extras.getString("RELEASE_DATE");
-        String moviePoster = extras.getString("POSTER");
-        String movieVoteAverage = extras.getString("VOTE_AVERAGE");
-        String movieOverview = extras.getString("OVERVIEW");
+        Movie movieDetails = getIntent().getParcelableExtra("movieDetails");
 
         // Setting the information into the corresponding views
-        mTitleTextView.setText(movieTitle);
-        mReleaseDateTextView.setText(movieReleaseDate);
+        mTitleTextView.setText(movieDetails.getTitle());
+        mReleaseDateTextView.setText(movieDetails.getRelease_date());
         // Adding a loading indicator while the image is loaded and an error message if there is a problem
         // while loading it
-        Picasso.with(context).load(BASE_POSTER_URL + POSTER_SIZE + moviePoster).into(mPosterImageView, new Callback() {
+        Picasso.with(context).load(BASE_POSTER_URL + POSTER_SIZE + movieDetails.getPoster_path()).into(mPosterImageView, new Callback() {
             @Override
             public void onSuccess() {
                 mProgressBar.setVisibility(View.GONE);
@@ -65,11 +60,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onError() {
+                mProgressBar.setVisibility(View.GONE);
                 mErrorLoadingPoster.setVisibility(View.VISIBLE);
             }
         });
-        mVoteAverageTextView.setText(movieVoteAverage);
-        mMovieOverviewTextView.setText(movieOverview);
+        mVoteAverageTextView.setText(movieDetails.getVote_average());
+        mMovieOverviewTextView.setText(movieDetails.getOverview());
 
 
     }

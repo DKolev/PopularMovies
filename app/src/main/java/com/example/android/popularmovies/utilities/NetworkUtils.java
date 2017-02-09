@@ -2,6 +2,8 @@ package com.example.android.popularmovies.utilities;
 
 import android.net.Uri;
 
+import com.example.android.popularmovies.MovieDetailsActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,6 +18,10 @@ import java.util.Scanner;
 public class NetworkUtils {
 
     final static String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/movie/";
+
+    final static int MOVIE_ID = MovieDetailsActivity.MOVIE_ID;
+
+    final static String MOVIE_TRAILERS_URL_ = MOVIE_ID + "/videos?";
 
     final static String QUERY_POPULAR = "popular";
 
@@ -35,6 +41,23 @@ public class NetworkUtils {
 
     ///TODO Make the page number variable to change ...
 //    final static int PAGE_NUMBER = 1;
+
+    public static URL buildMovieTrailersUrl () {
+        Uri buildUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
+                .appendPath(MOVIE_TRAILERS_URL_)
+                .appendQueryParameter(API_KEY, ACTUAL_KEY)
+                .appendQueryParameter(LANGUAGE, ACTUAL_LANGUAGE)
+                .build();
+
+        URL movieTrailersUrl = null;
+        try {
+            movieTrailersUrl = new URL(buildUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return movieTrailersUrl;
+    }
 
     public static URL buildPopularMoviesUrl() {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()

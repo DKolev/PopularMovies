@@ -102,6 +102,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         @BindView(R.id.movie_vote_average) TextView vote_average;
         @BindView(R.id.movie_plot_synopsis) TextView plot_synopsis;
 
+
         public ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

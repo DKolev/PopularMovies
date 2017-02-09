@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,6 +26,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     final static String POSTER_SIZE = "w500";
 
+    public static int MOVIE_ID;
+
     // Binding views with ButterKnife
     @BindView(R.id.movie_title) TextView mTitleTextView;
     @BindView(R.id.movie_release_data) TextView mReleaseDateTextView;
@@ -46,6 +49,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Getting the information about the movie from the MainActivity
         Movie movieDetails = getIntent().getParcelableExtra("movieDetails");
+
+        // Getting the movie ID and setting it on the MOVIE_ID variable
+        MOVIE_ID = (movieDetails.getMovieId());
+        Log.v(String.valueOf(MovieDetailsActivity.this), "id is " + MOVIE_ID);
 
         // Setting the information into the corresponding views
         mTitleTextView.setText(movieDetails.getTitle());

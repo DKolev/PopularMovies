@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             // If there is no connection, show the error message
             showErrorMessage();
         }
+
     }
 
 
@@ -128,12 +129,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
+                        int movieId = movie.get(position).getMovieId();
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
                         String movieVoteAverage = movie.get(position).getVote_average();
                         String movieOverview = movie.get(position).getOverview();
-                        Movie movieDetails = new Movie(movieName, movieReleaseDate, moviePoster, movieVoteAverage,
+                        Movie movieDetails = new Movie(movieId, movieName, movieReleaseDate, moviePoster, movieVoteAverage,
                                 movieOverview);
                         intent.putExtra("movieDetails", movieDetails);
                         startActivity(intent);
@@ -199,12 +201,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
+                        int movieId = movie.get(position).getMovieId();
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
                         String movieVoteAverage = movie.get(position).getVote_average();
                         String movieOverview = movie.get(position).getOverview();
-                        Movie movieDetails = new Movie(movieName, movieReleaseDate, moviePoster, movieVoteAverage,
+                        Movie movieDetails = new Movie(movieId, movieName, movieReleaseDate, moviePoster, movieVoteAverage,
                                 movieOverview);
                         intent.putExtra("movieDetails", movieDetails);
                         startActivity(intent);

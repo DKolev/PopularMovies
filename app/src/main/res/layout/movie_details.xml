@@ -130,6 +130,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:text="Plot Synopsis" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/movie_id"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--tools:text="Movie ID"/>-->
         </LinearLayout>
 
     </LinearLayout>

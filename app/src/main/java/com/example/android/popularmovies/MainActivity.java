@@ -16,6 +16,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.movies.JSONResponse;
+import com.example.android.popularmovies.movies.Movie;
+import com.example.android.popularmovies.movies.MovieAdapter;
+import com.example.android.popularmovies.movies.RequestInterfacePopularMovies;
+import com.example.android.popularmovies.movies.RequestInterfaceTopRatedMovies;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;

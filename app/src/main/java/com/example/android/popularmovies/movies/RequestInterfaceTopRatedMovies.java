@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.movies;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

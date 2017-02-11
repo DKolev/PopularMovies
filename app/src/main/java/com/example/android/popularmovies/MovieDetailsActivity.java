@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.movies.Movie;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

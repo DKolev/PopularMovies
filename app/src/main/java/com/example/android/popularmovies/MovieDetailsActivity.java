@@ -3,18 +3,26 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.movies.Movie;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Kolev on 02-Jan-17.
@@ -23,6 +31,7 @@ import butterknife.ButterKnife;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     // Defining some variables
+
     final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
 
     final static String POSTER_SIZE = "w500";
@@ -38,6 +47,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.poster_loading_indicator) ProgressBar mProgressBar;
     @BindView(R.id.error_loading_poster) TextView mErrorLoadingPoster;
     private Context context;
+
+    @BindView(R.id.movie_trailer_recycler_view) RecyclerView mTrailerRecyclerView;
+    private TrailerAdapter mTrailerAdapter;
+    private ArrayList<Trailer> trailer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +88,52 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mVoteAverageTextView.setText(movieDetails.getVote_average());
         mMovieOverviewTextView.setText(movieDetails.getOverview());
 
+        loadJsonTrailers();
+
+        mTrailerRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManagerLinear = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mTrailerRecyclerView.setLayoutManager(layoutManagerLinear);
+
+    }
+
+    private void loadJsonTrailers() {
+
+        String baseUrl = "https://api.themoviedb.org/3/movie/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RequestInterface request = retrofit.create(RequestInterface.class);
+        String movieIdString = Integer.toString(MOVIE_ID);
+        String trailersEndPoint =  movieIdString + "/videos?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US";
+        Log.v(String.valueOf(MovieDetailsActivity.class), "endpoint is " + trailersEndPoint);
+        Call<JSONResponseTrailer> call = request.getJSONTrailer(trailersEndPoint);
+        call.enqueue(new retrofit2.Callback<JSONResponseTrailer>() {
+            @Override
+            public void onResponse(Call<JSONResponseTrailer> call, Response<JSONResponseTrailer> response) {
+                JSONResponseTrailer jsonResponseTrailer = response.body();
+                trailer = new ArrayList<>(Arrays.asList(jsonResponseTrailer.getTrailer()));
+                mTrailerAdapter = new TrailerAdapter(trailer);
+//                mTrailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View itemView, int position) {
+//                        int trailerKey = trailer.get(position).getKey();
+//                        Log.v(String.valueOf(MovieDetailsActivity.this), " key is " + trailerKey);
+//                        String youtubeUrl = "https://www.youtube.com/watch?v=" + trailerKey;
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setData(Uri.parse(youtubeUrl));
+//                        startActivity(intent);
+//                    }
+//                });
+
+                mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<JSONResponseTrailer> call, Throwable t) {
+
+            }
+        });
 
     }
 }

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.movies;
+package com.example.android.popularmovies;
 
 /**
  * This class has only one JSON object "results" with child JSON array. This array can be stored in the Movie
@@ -12,4 +12,6 @@ public class JSONResponse {
     public Movie[] getMovie() {
         return results;
     }
+
+
 }

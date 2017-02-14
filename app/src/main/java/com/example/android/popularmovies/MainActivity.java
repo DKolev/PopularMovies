@@ -16,11 +16,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.movies.JSONResponse;
-import com.example.android.popularmovies.movies.Movie;
-import com.example.android.popularmovies.movies.MovieAdapter;
-import com.example.android.popularmovies.movies.RequestInterfacePopularMovies;
-import com.example.android.popularmovies.movies.RequestInterfaceTopRatedMovies;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
@@ -108,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        // RequestInterfacePopularMovies object is created
-        RequestInterfacePopularMovies request = retrofit.create(RequestInterfacePopularMovies.class);
-        // Creating Call object from the RequestInterfacePopularMovies by calling getJSON() method
-        Call<JSONResponse> call = request.getJSON();
+        // RequestInterface object is created
+        RequestInterface request = retrofit.create(RequestInterface.class);
+        // Creating Call object from the RequestInterface by calling getJSON() method
+        Call<JSONResponse> call = request.getJSONPopular();
         // Executing the Async request
         call.enqueue(new Callback<JSONResponse>() {
 
@@ -181,9 +176,9 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         // RequestInterfaceTopRatedMovies object is created
-        RequestInterfaceTopRatedMovies request = retrofit.create(RequestInterfaceTopRatedMovies.class);
+        RequestInterface request = retrofit.create(RequestInterface.class);
         // Creating Call object from the RequestInterfaceTopRatedMovies by calling getJSON() method
-        Call<JSONResponse> call = request.getJSON();
+        Call<JSONResponse> call = request.getJSONTopRated();
         // Executing the Async request
         call.enqueue(new Callback<JSONResponse>() {
 

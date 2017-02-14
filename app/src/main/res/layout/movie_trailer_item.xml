@@ -29,7 +29,7 @@
                 android:background="#EEEEEE" />
 
             <TextView
-                android:id="@+id/trailer_number"
+                android:id="@+id/trailer_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
@@ -37,6 +37,15 @@
                 android:gravity="center"
                 android:visibility="visible"
                 tools:text="Trailer 1" />
+
+            <TextView
+                android:id="@+id/trailer_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:visibility="gone" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

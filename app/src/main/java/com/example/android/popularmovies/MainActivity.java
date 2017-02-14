@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         // RequestInterface object is created
         RequestInterface request = retrofit.create(RequestInterface.class);
-        // Creating Call object from the RequestInterface by calling getJSON() method
+        // Creating Call object from the RequestInterface by calling getJSONPopular() method
         Call<JSONResponse> call = request.getJSONPopular();
         // Executing the Async request
         call.enqueue(new Callback<JSONResponse>() {
@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        // RequestInterfaceTopRatedMovies object is created
+        // RequestInterface object is created
         RequestInterface request = retrofit.create(RequestInterface.class);
-        // Creating Call object from the RequestInterfaceTopRatedMovies by calling getJSON() method
+        // Creating Call object from the RequestInterface by calling getJSONTopRated() method
         Call<JSONResponse> call = request.getJSONTopRated();
         // Executing the Async request
         call.enqueue(new Callback<JSONResponse>() {

@@ -16,7 +16,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.movies.JSONResponseMovie;
+import com.example.android.popularmovies.movies.Movie;
+import com.example.android.popularmovies.movies.MovieAdapter;
 import com.example.android.popularmovies.utilities.NetworkUtils;
+import com.example.android.popularmovies.utilities.RequestInterface;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private MovieAdapter mAdapter;
     private ArrayList<Movie> movie;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        mBundleRecyclerViewState = new Bundle();
+//        Parcelable listState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+//        mBundleRecyclerViewState.putParcelable(RECYCLER_VIEW_STATE_KEY, listState);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (mBundleRecyclerViewState != null) {
+//            Parcelable listState = mBundleRecyclerViewState.getParcelable(RECYCLER_VIEW_STATE_KEY);
+//            mRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+//        }
+//    }
+
+
     /**
      * This method loads the popular movies from themoviedb.org
      */
@@ -106,19 +129,19 @@ public class MainActivity extends AppCompatActivity {
         // RequestInterface object is created
         RequestInterface request = retrofit.create(RequestInterface.class);
         // Creating Call object from the RequestInterface by calling getJSONPopular() method
-        Call<JSONResponse> call = request.getJSONPopular();
+        Call<JSONResponseMovie> call = request.getJSONPopular();
         // Executing the Async request
-        call.enqueue(new Callback<JSONResponse>() {
+        call.enqueue(new Callback<JSONResponseMovie>() {
 
             // This is called if the request is successful
             @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
+            public void onResponse(Call<JSONResponseMovie> call, Response<JSONResponseMovie> response) {
                 // Hiding the loading indicator
                 mLoadingIndicator.setVisibility(View.INVISIBLE);
-                // Obtaining the JSONResponse object by calling body() method on the Response object
-                JSONResponse jsonResponse = response.body();
+                // Obtaining the JSONResponseMovie object by calling body() method on the Response object
+                JSONResponseMovie jsonResponseMovie = response.body();
                 // From the JSON response object I get the Movie array object and convert it to ArrayList
-                movie = new ArrayList<>(Arrays.asList(jsonResponse.getMovie()));
+                movie = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
                 Context context = getApplicationContext();
                 // Creating a new MovieAdapter
                 mAdapter = new MovieAdapter(context, movie);
@@ -148,9 +171,9 @@ public class MainActivity extends AppCompatActivity {
 
             // This is called if the request is failed
             @Override
-            public void onFailure(Call<JSONResponse> call, Throwable t) {
-                showErrorMessage();
-                Log.d("Error", t.getMessage());
+            public void onFailure(Call<JSONResponseMovie> call, Throwable t) {
+                Log.e("Movie info", "Error");
+                t.printStackTrace();
             }
         });
     }
@@ -178,19 +201,19 @@ public class MainActivity extends AppCompatActivity {
         // RequestInterface object is created
         RequestInterface request = retrofit.create(RequestInterface.class);
         // Creating Call object from the RequestInterface by calling getJSONTopRated() method
-        Call<JSONResponse> call = request.getJSONTopRated();
+        Call<JSONResponseMovie> call = request.getJSONTopRated();
         // Executing the Async request
-        call.enqueue(new Callback<JSONResponse>() {
+        call.enqueue(new Callback<JSONResponseMovie>() {
 
             // This is called if the request is successful
             @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
+            public void onResponse(Call<JSONResponseMovie> call, Response<JSONResponseMovie> response) {
                 // Hiding the loading indicator
                 mLoadingIndicator.setVisibility(View.INVISIBLE);
-                // Obtaining the JSONResponse object by calling body() method on the Response object
-                JSONResponse jsonResponse = response.body();
+                // Obtaining the JSONResponseMovie object by calling body() method on the Response object
+                JSONResponseMovie jsonResponseMovie = response.body();
                 // From the JSON response object I get the Movie array object and convert it to ArrayList
-                movie = new ArrayList<>(Arrays.asList(jsonResponse.getMovie()));
+                movie = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
                 Context context = getApplicationContext();
                 // Creating a new MovieAdapter
                 mAdapter = new MovieAdapter(context, movie);
@@ -219,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
 
             // This is called if the request is failed
             @Override
-            public void onFailure(Call<JSONResponse> call, Throwable t) {
-                showErrorMessage();
-                Log.d("Error", t.getMessage());
+            public void onFailure(Call<JSONResponseMovie> call, Throwable t) {
+                Log.e("Movie info", "Error");
+                t.printStackTrace();
             }
 
         });

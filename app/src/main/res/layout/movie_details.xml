@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -37,9 +37,9 @@
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:text="@string/problem_loading_movie_poster"
                     android:textAlignment="center"
-                    android:visibility="invisible"
-                    android:text="@string/problem_loading_movie_poster"/>
+                    android:visibility="invisible" />
             </FrameLayout>
 
             <LinearLayout
@@ -52,9 +52,9 @@
                     android:id="@+id/movie_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
                     android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
                     android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold"
@@ -115,13 +115,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/overview"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:textAppearance="?android:textAppearanceSmall" />
 
             <TextView
@@ -134,6 +137,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/trailers"
                 android:textAppearance="?android:textAppearanceSmall" />
 
@@ -141,7 +146,20 @@
                 android:id="@+id/movie_trailer_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/reviews"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movie_review_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
         </LinearLayout>
 
     </LinearLayout>

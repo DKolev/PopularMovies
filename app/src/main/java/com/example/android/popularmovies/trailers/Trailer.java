@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.trailers;
 
 /**
  * Created by Kolev on 11-Feb-17.
@@ -6,16 +6,16 @@ package com.example.android.popularmovies;
 
 public class Trailer {
 
-    private int key;
+    private String key;
     private String name;
 
-    public Trailer (int key, String name) {
+    public Trailer (String key, String name) {
         this.key = key;
         this.name = name;
 
     }
 
-    public int getKey() {
+    public String getKey() {
         return key;
     }
 

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.trailers;
 
 /**
  * Created by Kolev on 11-Feb-17.

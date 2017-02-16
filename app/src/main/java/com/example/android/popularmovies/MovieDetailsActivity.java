@@ -1,6 +1,8 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.movies.Movie;
+import com.example.android.popularmovies.trailers.JSONResponseTrailer;
+import com.example.android.popularmovies.trailers.Trailer;
+import com.example.android.popularmovies.trailers.TrailerAdapter;
+import com.example.android.popularmovies.utilities.RequestInterface;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +39,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     // Defining some variables
 
+    final static String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/movie/";
+
+    final static String MOVIE_DB_TRAILER_ENDPOINT_NO_ID = "/videos?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US";
+
     final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+
+    final static String YOU_TUBE_URL_NO_KEY = "https://www.youtube.com/watch?v=";
 
     final static String POSTER_SIZE = "w500";
 
@@ -98,15 +111,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void loadJsonTrailers() {
 
-        String baseUrl = "https://api.themoviedb.org/3/movie/";
+        String baseUrl = MOVIE_DB_BASE_URL;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RequestInterface request = retrofit.create(RequestInterface.class);
         String movieIdString = Integer.toString(MOVIE_ID);
-        String trailersEndPoint =  movieIdString + "/videos?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US";
-        Log.v(String.valueOf(MovieDetailsActivity.class), "endpoint is " + trailersEndPoint);
+        String trailersEndPoint =  movieIdString + MOVIE_DB_TRAILER_ENDPOINT_NO_ID;
         Call<JSONResponseTrailer> call = request.getJSONTrailer(trailersEndPoint);
         call.enqueue(new retrofit2.Callback<JSONResponseTrailer>() {
             @Override
@@ -114,24 +126,25 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 JSONResponseTrailer jsonResponseTrailer = response.body();
                 trailer = new ArrayList<>(Arrays.asList(jsonResponseTrailer.getTrailer()));
                 mTrailerAdapter = new TrailerAdapter(trailer);
-//                mTrailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View itemView, int position) {
-//                        int trailerKey = trailer.get(position).getKey();
-//                        Log.v(String.valueOf(MovieDetailsActivity.this), " key is " + trailerKey);
-//                        String youtubeUrl = "https://www.youtube.com/watch?v=" + trailerKey;
-//                        Intent intent = new Intent(Intent.ACTION_VIEW);
-//                        intent.setData(Uri.parse(youtubeUrl));
-//                        startActivity(intent);
-//                    }
-//                });
+                mTrailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View itemView, int position) {
+                        String trailerKey = trailer.get(position).getKey();
+                        Log.v(String.valueOf(MovieDetailsActivity.this), " key is " + trailerKey);
+                        String youtubeUrl = YOU_TUBE_URL_NO_KEY + trailerKey;
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(youtubeUrl));
+                        startActivity(intent);
+                    }
+                });
 
                 mTrailerRecyclerView.setAdapter(mTrailerAdapter);
             }
 
             @Override
             public void onFailure(Call<JSONResponseTrailer> call, Throwable t) {
-
+                Log.e("Trailer info", "Error");
+                t.printStackTrace();
             }
         });
 

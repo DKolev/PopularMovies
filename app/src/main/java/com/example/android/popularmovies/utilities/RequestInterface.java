@@ -1,4 +1,7 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.utilities;
+
+import com.example.android.popularmovies.movies.JSONResponseMovie;
+import com.example.android.popularmovies.trailers.JSONResponseTrailer;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,10 +14,10 @@ import retrofit2.http.Url;
 public interface RequestInterface {
 
     @GET("popular?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US&page=1")
-    Call<JSONResponse> getJSONPopular();
+    Call<JSONResponseMovie> getJSONPopular();
 
     @GET("top_rated?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US&page=1")
-    Call<JSONResponse> getJSONTopRated();
+    Call<JSONResponseMovie> getJSONTopRated();
 
     @GET
     Call<JSONResponseTrailer> getJSONTrailer(@Url String url);

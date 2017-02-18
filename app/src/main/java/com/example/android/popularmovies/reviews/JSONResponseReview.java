@@ -5,4 +5,10 @@ package com.example.android.popularmovies.reviews;
  */
 
 public class JSONResponseReview {
+
+    private Review[] results;
+
+    public Review[] getReview() {
+        return results;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.utilities;
 
 import com.example.android.popularmovies.movies.JSONResponseMovie;
+import com.example.android.popularmovies.reviews.JSONResponseReview;
 import com.example.android.popularmovies.trailers.JSONResponseTrailer;
 
 import retrofit2.Call;
@@ -21,6 +22,9 @@ public interface RequestInterface {
 
     @GET
     Call<JSONResponseTrailer> getJSONTrailer(@Url String url);
+
+    @GET
+    Call<JSONResponseReview> getJSONReview(@Url String url);
 
 
 }

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter mAdapter;
     private ArrayList<Movie> movie;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,24 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-    //    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        mBundleRecyclerViewState = new Bundle();
-//        Parcelable listState = mRecyclerView.getLayoutManager().onSaveInstanceState();
-//        mBundleRecyclerViewState.putParcelable(RECYCLER_VIEW_STATE_KEY, listState);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (mBundleRecyclerViewState != null) {
-//            Parcelable listState = mBundleRecyclerViewState.getParcelable(RECYCLER_VIEW_STATE_KEY);
-//            mRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
-//        }
-//    }
 
 
     /**
@@ -152,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
-                        int movieId = movie.get(position).getMovieId();
+                        String movieId = movie.get(position).getMovieId();
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
@@ -224,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
-                        int movieId = movie.get(position).getMovieId();
+                        String movieId = movie.get(position).getMovieId();
                         String movieName = movie.get(position).getTitle();
                         String movieReleaseDate = movie.get(position).getRelease_date();
                         String moviePoster = movie.get(position).getPoster_path();
@@ -285,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             mSortOption.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
             mErrorMessageTextView.setVisibility(View.GONE);
+
             return true;
         } else if (itemWasClicked == R.id.sort_by_rating) {
             loadJSONTopRatedMovies();

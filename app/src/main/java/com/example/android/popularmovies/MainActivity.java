@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private MovieAdapter mAdapter;
-    private ArrayList<Movie> movie;
+    static ArrayList<Movie> movie;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,20 @@ public class MainActivity extends AppCompatActivity {
             // If there is no connection, show the error message
             showErrorMessage();
         }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("textKey", mSortOption.getText().toString());
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSortOption.setText(savedInstanceState.getString("textKey"));
 
     }
 

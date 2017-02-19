@@ -64,8 +64,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.movie_plot_synopsis) TextView mMovieOverviewTextView;
     @BindView(R.id.poster_loading_indicator) ProgressBar mProgressBar;
     @BindView(R.id.error_loading_poster) TextView mErrorLoadingPoster;
-    @BindView(R.id.number_of_trailers) TextView mNumberOfTrailers;
-    @BindView(R.id.number_of_reviews) TextView mNumberOfReviews;
     private Context context;
 
     @BindView(R.id.movie_trailer_recycler_view) RecyclerView mTrailerRecyclerView;
@@ -74,6 +72,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.movie_review_recycler_view) RecyclerView mReviewRecyclerView;
     private ReviewAdapter mReviewAdapter;
     private ArrayList<Review> review;
+
+    @BindView(R.id.trailers_count) TextView mTrailersCount;
+    @BindView(R.id.reviews_count) TextView mReviewsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

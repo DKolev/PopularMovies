@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private MovieAdapter mAdapter;
-    static ArrayList<Movie> movie;
+    static ArrayList<Movie> movieList;
 
 
     @Override
@@ -89,15 +89,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putString("textKey", mSortOption.getText().toString());
+        outState.putParcelableArrayList("movieList", movieList);
+
+        super.onSaveInstanceState(outState);
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
         mSortOption.setText(savedInstanceState.getString("textKey"));
+        movieList = savedInstanceState.getParcelableArrayList("movieList");
+        Log.v(String.valueOf(this), "movie list is" + movieList);
+
+        super.onRestoreInstanceState(savedInstanceState);
 
     }
 
@@ -137,10 +142,10 @@ public class MainActivity extends AppCompatActivity {
                 // Obtaining the JSONResponseMovie object by calling body() method on the Response object
                 JSONResponseMovie jsonResponseMovie = response.body();
                 // From the JSON response object I get the Movie array object and convert it to ArrayList
-                movie = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
+                movieList = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
                 Context context = getApplicationContext();
                 // Creating a new MovieAdapter
-                mAdapter = new MovieAdapter(context, movie);
+                mAdapter = new MovieAdapter(context, movieList);
                 // Setting an OnItemClickListener so I can pass the info about the movie to the
                 // MovieDetailsActivity
                 mAdapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
@@ -148,12 +153,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
-                        String movieId = movie.get(position).getMovieId();
-                        String movieName = movie.get(position).getTitle();
-                        String movieReleaseDate = movie.get(position).getRelease_date();
-                        String moviePoster = movie.get(position).getPoster_path();
-                        String movieVoteAverage = movie.get(position).getVote_average();
-                        String movieOverview = movie.get(position).getOverview();
+                        String movieId = movieList.get(position).getMovieId();
+                        String movieName = movieList.get(position).getTitle();
+                        String movieReleaseDate = movieList.get(position).getRelease_date();
+                        String moviePoster = movieList.get(position).getPoster_path();
+                        String movieVoteAverage = movieList.get(position).getVote_average();
+                        String movieOverview = movieList.get(position).getOverview();
                         Movie movieDetails = new Movie(movieId, movieName, movieReleaseDate, moviePoster, movieVoteAverage,
                                 movieOverview);
                         intent.putExtra("movieDetails", movieDetails);
@@ -209,10 +214,10 @@ public class MainActivity extends AppCompatActivity {
                 // Obtaining the JSONResponseMovie object by calling body() method on the Response object
                 JSONResponseMovie jsonResponseMovie = response.body();
                 // From the JSON response object I get the Movie array object and convert it to ArrayList
-                movie = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
+                movieList = new ArrayList<>(Arrays.asList(jsonResponseMovie.getMovie()));
                 Context context = getApplicationContext();
                 // Creating a new MovieAdapter
-                mAdapter = new MovieAdapter(context, movie);
+                mAdapter = new MovieAdapter(context, movieList);
                 // Setting an OnItemClickListener so I can pass the info about the movie to the
                 // MovieDetailsActivity
                 mAdapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
@@ -220,12 +225,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(View itemView, int position) {
                         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                         // Packing everything together after making the Movie object Parcelable
-                        String movieId = movie.get(position).getMovieId();
-                        String movieName = movie.get(position).getTitle();
-                        String movieReleaseDate = movie.get(position).getRelease_date();
-                        String moviePoster = movie.get(position).getPoster_path();
-                        String movieVoteAverage = movie.get(position).getVote_average();
-                        String movieOverview = movie.get(position).getOverview();
+                        String movieId = movieList.get(position).getMovieId();
+                        String movieName = movieList.get(position).getTitle();
+                        String movieReleaseDate = movieList.get(position).getRelease_date();
+                        String moviePoster = movieList.get(position).getPoster_path();
+                        String movieVoteAverage = movieList.get(position).getVote_average();
+                        String movieOverview = movieList.get(position).getOverview();
                         Movie movieDetails = new Movie(movieId, movieName, movieReleaseDate, moviePoster, movieVoteAverage,
                                 movieOverview);
                         intent.putExtra("movieDetails", movieDetails);
@@ -250,7 +255,41 @@ public class MainActivity extends AppCompatActivity {
      * This method loads the popular movies (by default) and sets the error message text view to be invisible
      */
     private void showMovies() {
-        loadJSONPopularMovies();
+
+        // If the movieList is not null, then it is restored from onRestoreInstanceState and I'm passing it to a
+        // new instance of mAdapter (also setting the setOnItemClickListener). And if the movieList is null,
+        // then I'm calling loadJSONPopularMovies() method.
+        // Not sure if this is the right way but without it when the activity is restored with the correct movieList,
+        // I can't get to the MovieDetails activity.
+        //
+        // IF THERE IS ANOTHER AND BETTER WAY TO DO THIS (I mean skipping the new request to the API on device rotation,
+        // please let me know.
+        //
+
+        if (movieList != null) {
+            Context context = getApplicationContext();
+            mAdapter = new MovieAdapter(context, movieList);
+            mAdapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+                    // Packing everything together after making the Movie object Parcelable
+                    String movieId = movieList.get(position).getMovieId();
+                    String movieName = movieList.get(position).getTitle();
+                    String movieReleaseDate = movieList.get(position).getRelease_date();
+                    String moviePoster = movieList.get(position).getPoster_path();
+                    String movieVoteAverage = movieList.get(position).getVote_average();
+                    String movieOverview = movieList.get(position).getOverview();
+                    Movie movieDetails = new Movie(movieId, movieName, movieReleaseDate, moviePoster, movieVoteAverage,
+                            movieOverview);
+                    intent.putExtra("movieDetails", movieDetails);
+                    startActivity(intent);
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            loadJSONPopularMovies();
+        }
         mRecyclerView.setVisibility(View.VISIBLE);
         mErrorMessageTextView.setVisibility(View.INVISIBLE);
     }

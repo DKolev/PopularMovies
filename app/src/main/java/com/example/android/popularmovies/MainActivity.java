@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter mAdapter;
     static ArrayList<Movie> movieList;
 
+    static final String MOVIE_LIST_KEY = "movieList";
+    static final String SORT_OPTION_KEY = "sortOption";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("textKey", mSortOption.getText().toString());
-        outState.putParcelableArrayList("movieList", movieList);
+        outState.putString(SORT_OPTION_KEY, mSortOption.getText().toString());
+        outState.putParcelableArrayList(MOVIE_LIST_KEY, movieList);
 
         super.onSaveInstanceState(outState);
 
@@ -98,9 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mSortOption.setText(savedInstanceState.getString("textKey"));
-        movieList = savedInstanceState.getParcelableArrayList("movieList");
-        Log.v(String.valueOf(this), "movie list is" + movieList);
+        mSortOption.setText(savedInstanceState.getString(SORT_OPTION_KEY));
+        movieList = savedInstanceState.getParcelableArrayList(MOVIE_LIST_KEY);
 
         super.onRestoreInstanceState(savedInstanceState);
 

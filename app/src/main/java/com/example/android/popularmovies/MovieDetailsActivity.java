@@ -68,19 +68,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     @BindView(R.id.movie_trailer_recycler_view) RecyclerView mTrailerRecyclerView;
     private TrailerAdapter mTrailerAdapter;
-    private ArrayList<Trailer> trailer;
+    private ArrayList<Trailer> trailerList;
+
     @BindView(R.id.movie_review_recycler_view) RecyclerView mReviewRecyclerView;
     private ReviewAdapter mReviewAdapter;
-    private ArrayList<Review> review;
+    private ArrayList<Review> reviewList;
 
     @BindView(R.id.trailers_count) TextView mTrailersCount;
     @BindView(R.id.reviews_count) TextView mReviewsCount;
+
+    static final String TRAILERS_KEY = "trailersKey";
+    static final String REVIEWS_KEY = "reviewsKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details);
         ButterKnife.bind(this);
+
 
         // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
@@ -112,8 +117,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mVoteAverageTextView.setText(movieDetails.getVote_average());
         mMovieOverviewTextView.setText(movieDetails.getOverview());
 
-        loadJsonTrailers();
-        loadJSONReviews();
+        showTrailersAndReviews();
 
         mTrailerRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManagerLinearTrailers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -123,6 +127,26 @@ public class MovieDetailsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManagerLinearReviews = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mReviewRecyclerView.setLayoutManager(layoutManagerLinearReviews);
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(TRAILERS_KEY, trailerList);
+        outState.putParcelableArrayList(REVIEWS_KEY, reviewList);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        trailerList = savedInstanceState.getParcelableArrayList(TRAILERS_KEY);
+        reviewList = savedInstanceState.getParcelableArrayList(REVIEWS_KEY);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        showTrailersAndReviews();
+        super.onResume();
     }
 
     private void loadJsonTrailers() {
@@ -139,13 +163,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JSONResponseTrailer> call, Response<JSONResponseTrailer> response) {
                 JSONResponseTrailer jsonResponseTrailer = response.body();
-                trailer = new ArrayList<>(Arrays.asList(jsonResponseTrailer.getTrailer()));
-                mTrailerAdapter = new TrailerAdapter(trailer);
+                trailerList = new ArrayList<>(Arrays.asList(jsonResponseTrailer.getTrailer()));
+                mTrailersCount.setText("(" + Integer.toString(trailerList.size()) + ")");
+                mTrailerAdapter = new TrailerAdapter(trailerList);
                 mTrailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        String trailerKey = trailer.get(position).getKey();
-                        Log.v(String.valueOf(MovieDetailsActivity.this), " key is " + trailerKey);
+                        String trailerKey = trailerList.get(position).getKey();
                         String youtubeUrl = YOU_TUBE_URL_NO_KEY + trailerKey;
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(youtubeUrl));
@@ -179,12 +203,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JSONResponseReview> call, Response<JSONResponseReview> response) {
                 JSONResponseReview jsonResponseReview = response.body();
-                review = new ArrayList<>(Arrays.asList(jsonResponseReview.getReview()));
-                mReviewAdapter = new ReviewAdapter(review);
+                reviewList = new ArrayList<>(Arrays.asList(jsonResponseReview.getReview()));
+                mReviewsCount.setText("(" + Integer.toString(reviewList.size()) + ")");
+                mReviewAdapter = new ReviewAdapter(reviewList);
                 mReviewAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        String urlToFollow = review.get(position).getUrl();
+                        String urlToFollow = reviewList.get(position).getUrl();
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(urlToFollow));
                         startActivity(intent);
@@ -200,5 +225,41 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    public void showTrailersAndReviews() {
+        if (trailerList != null && reviewList != null) {
+            mTrailerAdapter = new TrailerAdapter(trailerList);
+            mTrailersCount.setText("(" + Integer.toString(trailerList.size()) + ")");
+            mTrailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    String trailerKey = trailerList.get(position).getKey();
+                    String youtubeUrl = YOU_TUBE_URL_NO_KEY + trailerKey;
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(youtubeUrl));
+                    startActivity(intent);
+                }
+            });
+            mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+
+            mReviewAdapter = new ReviewAdapter(reviewList);
+            mReviewsCount.setText("(" + Integer.toString(reviewList.size()) + ")");
+            mReviewAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    String urlToFollow = reviewList.get(position).getUrl();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(urlToFollow));
+                    startActivity(intent);
+                }
+            });
+
+            mReviewRecyclerView.setAdapter(mReviewAdapter);
+
+        } else {
+            loadJsonTrailers();
+            loadJSONReviews();
+        }
     }
 }

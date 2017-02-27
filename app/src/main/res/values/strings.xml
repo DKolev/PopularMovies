@@ -9,4 +9,6 @@
     <string name="overview">Overview:</string>
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
+    <string name="out_of_10"> / 10</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 </resources>

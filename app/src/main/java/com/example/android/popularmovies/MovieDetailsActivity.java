@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.popularmovies.data.FavMoviesContract;
 import com.example.android.popularmovies.movies.Movie;
 import com.example.android.popularmovies.reviews.JSONResponseReview;
 import com.example.android.popularmovies.reviews.Review;
@@ -64,6 +67,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.movie_plot_synopsis) TextView mMovieOverviewTextView;
     @BindView(R.id.poster_loading_indicator) ProgressBar mProgressBar;
     @BindView(R.id.error_loading_poster) TextView mErrorLoadingPoster;
+    @BindView(R.id.fav_star) ImageView mFavStarImageView;
     private Context context;
 
     @BindView(R.id.movie_trailer_recycler_view) RecyclerView mTrailerRecyclerView;
@@ -262,4 +266,27 @@ public class MovieDetailsActivity extends AppCompatActivity {
             loadJSONReviews();
         }
     }
+
+    public void addToFavorites(View view) {
+
+        String title = (String) mTitleTextView.getText();
+        String release_date = (String) mReleaseDateTextView.getText();
+        String vote_average = (String) mVoteAverageTextView.getText();
+        String overview = (String) mMovieOverviewTextView.getText();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_TITLE, title);
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_RELEASE_DATE, release_date);
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_OVERVIEW, overview);
+
+        Uri uri = getContentResolver().insert(FavMoviesContract.FavMoviesEntry.CONTENT_URI, contentValues);
+
+        if (uri != null) {
+            Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
+            mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
+        }
+    }
+
 }

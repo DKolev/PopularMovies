@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     static final String MOVIE_LIST_KEY = "movieList";
     static final String SORT_OPTION_KEY = "sortOption";
 
+    ConnectivityManager mConnectivityManager;
+    NetworkInfo mNetworkInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new SlideInDownAnimator());
 
         // Getting a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         // Getting details on the currently active default data network
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
         // If there is a network connection, load the movies. By default, the app will load the popular movies
         // on themoviedb.org and the order can be changed to see the top rated ones by clicking a button
         // in the options menu
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (mNetworkInfo != null && mNetworkInfo.isConnected()) {
             showMovies();
         } else {
             // If there is no connection, show the error message
@@ -328,23 +331,51 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemWasClicked = item.getItemId();
         if (itemWasClicked == R.id.sort_by_popularity) {
-            loadJSONPopularMovies();
-            mSortOption.setText(R.string.popular_movies_on_themoviedb_org);
-            mSortOption.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mErrorMessageTextView.setVisibility(View.GONE);
-
+            // Getting a reference to the ConnectivityManager to check state of network connectivity
+            mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            // Getting details on the currently active default data network
+            mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            // If there is a network connection, load the movies. By default, the app will load the popular movies
+            // on themoviedb.org and the order can be changed to see the top rated ones by clicking a button
+            // in the options menu
+            if (mNetworkInfo != null && mNetworkInfo.isConnected()) {
+                loadJSONPopularMovies();
+                mSortOption.setText(R.string.popular_movies_on_themoviedb_org);
+                mSortOption.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mErrorMessageTextView.setVisibility(View.GONE);
+            } else {
+                // If there is no connection, show the error message
+                showErrorMessage();
+            }
             return true;
         } else if (itemWasClicked == R.id.sort_by_rating) {
-            loadJSONTopRatedMovies();
-            mSortOption.setText(R.string.top_rated_movies_on_the_moviedb_org);
-            mSortOption.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mErrorMessageTextView.setVisibility(View.GONE);
+            // Getting a reference to the ConnectivityManager to check state of network connectivity
+            mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            // Getting details on the currently active default data network
+            mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            // If there is a network connection, load the movies. By default, the app will load the popular movies
+            // on themoviedb.org and the order can be changed to see the top rated ones by clicking a button
+            // in the options menu
+            if (mNetworkInfo != null && mNetworkInfo.isConnected()) {
+                loadJSONTopRatedMovies();
+                mSortOption.setText(R.string.top_rated_movies_on_the_moviedb_org);
+                mSortOption.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mErrorMessageTextView.setVisibility(View.GONE);
+            } else {
+                // If there is no connection, show the error message
+                showErrorMessage();
+            }
+            return true;
+        } else if (itemWasClicked == R.id.show_favorites) {
+            Intent intent = new Intent(this, FavoriteMoviesActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private class SampleDumperPluginsProvider implements DumperPluginsProvider {
         private final Context mContext;

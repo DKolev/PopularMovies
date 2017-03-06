@@ -74,6 +74,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements LoaderM
 
                 // Delete a single row of data
                 getContentResolver().delete(uri, null, null);
+                Toast.makeText(FavoriteMoviesActivity.this, "Movie deleted from Favorites", Toast.LENGTH_SHORT).show();
 
                 // Restart the loader to re-query for all tasks after a deletion
                 getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, FavoriteMoviesActivity.this);
@@ -152,7 +153,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements LoaderM
         int itemWasClicked = item.getItemId();
 
         switch (itemWasClicked) {
-            case R.id.delete_movie:
+            case R.id.delete_movies:
                 showWarningDialog();
                 return true;
         }

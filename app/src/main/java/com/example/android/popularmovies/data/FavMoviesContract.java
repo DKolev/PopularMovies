@@ -32,7 +32,7 @@ public class FavMoviesContract {
 
         public static final String MOVIE_RELEASE_DATE = "movie_release_date";
 
-//        public static final String MOVIE_POSTER_PATH = "movie_poster_path";
+        public static final String MOVIE_POSTER_PATH = "movie_poster_path";
 
         public static final String MOVIE_VOTE_AVERAGE = "movie_vote_average";
 

@@ -84,6 +84,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     static final String TRAILERS_KEY = "trailersKey";
     static final String REVIEWS_KEY = "reviewsKey";
 
+    private Movie movieDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.VISIBLE);
 
         // Getting the information about the movie from the MainActivity
-        Movie movieDetails = getIntent().getParcelableExtra("movieDetails");
+        movieDetails = getIntent().getParcelableExtra("movieDetails");
 
         // Getting the movie ID and setting it on the MOVIE_ID variable
         MOVIE_ID = (movieDetails.getMovieId());
@@ -273,10 +275,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         String release_date = (String) mReleaseDateTextView.getText();
         String vote_average = (String) mVoteAverageTextView.getText();
         String overview = (String) mMovieOverviewTextView.getText();
+        String poster_path = movieDetails.getPoster_path();
+
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_TITLE, title);
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_POSTER_PATH, poster_path);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_RELEASE_DATE, release_date);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_OVERVIEW, overview);

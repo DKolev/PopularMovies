@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.data.FavMoviesContract;
 import com.example.android.popularmovies.movies.MovieAdapter;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +25,12 @@ public class CustomFavMoviesCursorAdapter extends CursorRecyclerViewAdapter<Cust
     private Cursor mCursor;
     private Context mContext;
     private MovieAdapter.OnItemClickListener listener;
+
+    private final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+
+    private final static String POSTER_SIZE = "w185";
+
+    private String posterURL;
 
     public CustomFavMoviesCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -51,18 +58,22 @@ public class CustomFavMoviesCursorAdapter extends CursorRecyclerViewAdapter<Cust
 
         int idIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry._ID);
         int titleIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry.MOVIE_TITLE);
+        int posterIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry.MOVIE_POSTER_PATH);
         int release_dateIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry.MOVIE_RELEASE_DATE);
         int vote_averageIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE);
         int overviewIndex = cursor.getColumnIndex(FavMoviesContract.FavMoviesEntry.MOVIE_OVERVIEW);
 
         final int id = cursor.getInt(idIndex);
         String movie_title = cursor.getString(titleIndex);
+        String poster_path = cursor.getString(posterIndex);
         String release_date = cursor.getString(release_dateIndex);
         String vote_average = cursor.getString(vote_averageIndex);
         String overview = cursor.getString(overviewIndex);
 
         viewHolder.itemView.setTag(id);
         viewHolder.title.setText(movie_title);
+        posterURL = BASE_POSTER_URL + POSTER_SIZE + poster_path;
+        Picasso.with(mContext).load(posterURL).into(viewHolder.poster);
         viewHolder.release_date.setText(release_date);
         viewHolder.vote_average.setText(vote_average);
         viewHolder.plot_synopsis.setText(overview);

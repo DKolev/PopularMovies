@@ -30,7 +30,7 @@ public class FavMoviesDbHelper extends SQLiteOpenHelper{
                 FavMoviesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 FavMoviesEntry.MOVIE_TITLE + " TEXT NOT NULL, " +
                 FavMoviesEntry.MOVIE_RELEASE_DATE + " TEXT NOT NULL, " +
-//                FavMoviesEntry.MOVIE_POSTER_PATH + " TEXT, " +
+                FavMoviesEntry.MOVIE_POSTER_PATH + " TEXT, " +
                 FavMoviesEntry.MOVIE_VOTE_AVERAGE + " TEXT NOT NULL, " +
                 FavMoviesEntry.MOVIE_OVERVIEW  + " TEXT NOT NULL" +
                 ");";

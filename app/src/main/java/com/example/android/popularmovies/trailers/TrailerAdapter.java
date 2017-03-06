@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
@@ -86,6 +87,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.trailer_name) TextView trailer_name;
         @BindView(R.id.trailer_url) TextView trailer_url;
+        @BindView(R.id.play_image) ImageView trailer_play;
 
 
         public ViewHolder(final View itemView) {
@@ -93,7 +95,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
             ButterKnife.bind(this, itemView);
 
             // Setting an OnClickListener on the poster image
-            trailer_name.setOnClickListener(new View.OnClickListener() {
+            trailer_play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {

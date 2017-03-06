@@ -24,7 +24,9 @@
                 android:id="@+id/play_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="#EEEEEE" />
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:src="@drawable/ic_play_circle_outline_black_36dp" />
 
             <TextView
                 android:id="@+id/trailer_name"
@@ -32,13 +34,11 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:ellipsize="end"
-                android:padding="5dp"
                 android:gravity="center"
-                android:visibility="visible"
-                tools:text="Trailer 1"
                 android:maxLines="2"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"/>
+                android:padding="5dp"
+                android:visibility="visible"
+                tools:text="Trailer 1" />
 
             <TextView
                 android:id="@+id/trailer_url"

@@ -92,7 +92,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.movie_details);
         ButterKnife.bind(this);
 
-
         // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
 
@@ -281,6 +280,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_TITLE, title);
+        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_ID, MOVIE_ID);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_POSTER_PATH, poster_path);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_RELEASE_DATE, release_date);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);

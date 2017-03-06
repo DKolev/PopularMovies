@@ -30,6 +30,8 @@ public class FavMoviesContract {
 
         public static final String MOVIE_TITLE = "movie_title";
 
+        public static final String MOVIE_ID = "movieId";
+
         public static final String MOVIE_RELEASE_DATE = "movie_release_date";
 
         public static final String MOVIE_POSTER_PATH = "movie_poster_path";

@@ -78,6 +78,9 @@ public class FavMoviesContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+
+            case MOVIES_WITH_ID:
+
             // Default exception
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

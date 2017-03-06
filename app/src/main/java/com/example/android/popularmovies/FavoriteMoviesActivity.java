@@ -73,6 +73,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements LoaderM
                 uri = uri.buildUpon().appendPath(stringID).build();
 
                 // Delete a single row of data
+
                 getContentResolver().delete(uri, null, null);
                 Toast.makeText(FavoriteMoviesActivity.this, "Movie deleted from Favorites", Toast.LENGTH_SHORT).show();
 

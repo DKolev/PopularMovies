@@ -41,7 +41,7 @@ public class CustomFavMoviesCursorAdapter extends CursorRecyclerViewAdapter<Cust
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.movie_grid_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.movie_grid_item_local, parent, false);
 
         return new MovieViewHolder(view);
     }
@@ -72,9 +72,9 @@ public class CustomFavMoviesCursorAdapter extends CursorRecyclerViewAdapter<Cust
     public class MovieViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.movie_title) TextView title;
-        @BindView(R.id.movie_release_data) TextView release_date;
-        @BindView(R.id.movie_vote_average) TextView vote_average;
-        @BindView(R.id.movie_plot_synopsis) TextView plot_synopsis;
+        @BindView(R.id.release_date) TextView release_date;
+        @BindView(R.id.rating) TextView vote_average;
+        @BindView(R.id.plot_synopsis) TextView plot_synopsis;
         @BindView(R.id.movie_poster) ImageView poster;
 
         public MovieViewHolder(final View itemView) {

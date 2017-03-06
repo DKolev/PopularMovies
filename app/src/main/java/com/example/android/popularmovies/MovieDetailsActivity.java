@@ -286,6 +286,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         if (uri != null) {
             Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
+
         }
     }
 

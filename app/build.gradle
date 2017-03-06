@@ -43,7 +43,7 @@ dependencies {
     // Retrofit GSON converter library
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     // Constraint Layout
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
     // Stetho
     compile 'com.facebook.stetho:stetho:1.4.2'
 }

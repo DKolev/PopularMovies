@@ -15,8 +15,11 @@
     <string name="sort_by_popularity">Sort by popularity</string>
     <string name="sort_by_rating">Sort by rating</string>
     <string name="show_favorites">Show favorites</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete all</string>
     <string name="share">Share</string>
     <string name="movie_poster">Movie poster</string>
     <string name="star_image">Image of a star which adds the movie to the local Favorites list</string>
+    <string name="warning_dialog_msg_all_movies">Delete all movies from your Favorites list?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

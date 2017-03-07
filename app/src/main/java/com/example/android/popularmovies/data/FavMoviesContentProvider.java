@@ -79,7 +79,14 @@ public class FavMoviesContentProvider extends ContentProvider {
                         sortOrder);
                 break;
 
+            // Query for a single movie
             case MOVIES_WITH_ID:
+                selection = FavMoviesEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+
+                returnCursor = database.query(FavMoviesEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
 
             // Default exception
             default:

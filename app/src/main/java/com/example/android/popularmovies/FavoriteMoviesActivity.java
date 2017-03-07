@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +10,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
@@ -48,10 +52,26 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements LoaderM
 
         mSortOption.setText(R.string.my_favorite_movies);
 
-        // Creating a new verticalLinearLayout with GridLayout and 3 columns
-        RecyclerView.LayoutManager verticalLinearLayout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        // Setting the verticalLinearLayout to the RecyclerView
-        mRecyclerView.setLayoutManager(verticalLinearLayout);
+        // Getting the current orientation of the device
+        int orientation = this.getResources().getConfiguration().orientation;
+        // Setting a GridLayout with 3 columns if the orientation is PORTRAIT
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Creating a new layoutManagerPortrait with GridLayout and 3 columns
+            RecyclerView.LayoutManager verticalLinearLayout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            // Setting the layoutManagerPortrait to the RecyclerView
+            mRecyclerView.setLayoutManager(verticalLinearLayout);
+            SnapHelper snapHelper = new LinearSnapHelper();
+            snapHelper.attachToRecyclerView(mRecyclerView);
+        } else {
+            // If the orientation is LANDSCAPE, I set a GridLayout with 5 columns
+            RecyclerView.LayoutManager gridLayout = new GridLayoutManager(this, 2);
+            mRecyclerView.setLayoutManager(gridLayout);
+        }
+
+//        // Creating a new verticalLinearLayout with GridLayout and 3 columns
+//        RecyclerView.LayoutManager verticalLinearLayout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        // Setting the verticalLinearLayout to the RecyclerView
+//        mRecyclerView.setLayoutManager(verticalLinearLayout);
 
         mAdapter = new CustomFavMoviesCursorAdapter(this, cursor);
         mRecyclerView.setAdapter(mAdapter);

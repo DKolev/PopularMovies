@@ -48,20 +48,20 @@
 
         <TextView
             android:id="@+id/movie_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="72dp"
             android:textAlignment="center"
             android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.619"
             app:layout_constraintLeft_toRightOf="@+id/frameLayout"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frameLayout"
+            app:layout_constraintWidth_default="wrap"
             tools:text="Movie Title" />
 
         <TextView
@@ -80,7 +80,6 @@
             android:id="@+id/movie_release_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:padding="5dp"
             android:textAlignment="center"
             android:textAppearance="?android:textAppearanceMedium"
@@ -94,10 +93,10 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/rating"
             android:textAlignment="center"
             android:textAppearance="?android:textAppearanceSmall"
+            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintLeft_toLeftOf="@+id/movie_release_data"
             app:layout_constraintRight_toRightOf="@+id/movie_release_data"
             app:layout_constraintTop_toBottomOf="@+id/movie_release_data" />
@@ -107,7 +106,6 @@
             android:id="@+id/movie_vote_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:padding="5dp"
             android:textAlignment="center"
             android:textAppearance="?android:textAppearanceMedium"
@@ -129,23 +127,28 @@
 
         <TextView
             android:id="@+id/movie_plot_synopsis"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            app:layout_constraintWidth_default="wrap"
             android:textAppearance="?android:textAppearanceMedium"
             app:layout_constraintLeft_toLeftOf="@+id/overview"
             app:layout_constraintTop_toBottomOf="@+id/overview"
-            tools:text="Plot Synopsis" />
+            tools:text="Plot Synopsis"
+            android:layout_marginRight="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.502" />
 
         <TextView
             android:id="@+id/trailers_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:text="@string/trailers"
             android:textAppearance="?android:textAppearanceSmall"
-            app:layout_constraintLeft_toLeftOf="@+id/movie_plot_synopsis"
-            app:layout_constraintTop_toBottomOf="@+id/movie_plot_synopsis" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_plot_synopsis"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/overview" />
 
         <TextView
             android:id="@+id/trailers_count"
@@ -190,8 +193,36 @@
             android:layout_width="328dp"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/reviews_title"
-            app:layout_constraintLeft_toLeftOf="@+id/reviews_title" />
+            android:layout_marginBottom="16dp"
+            app:layout_constraintLeft_toLeftOf="@+id/reviews_title"
+            app:layout_constraintTop_toBottomOf="@+id/reviews_title" />
+
+        <TextView
+            android:id="@+id/add_to_favs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:text="Add to Favorites"
+            app:layout_constraintHorizontal_bias="0.466"
+            app:layout_constraintLeft_toRightOf="@+id/frameLayout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_vote_average" />
+
+        <ImageView
+            android:id="@+id/fav_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:onClick="addToFavorites"
+            app:layout_constraintHorizontal_bias="0.562"
+            app:layout_constraintLeft_toRightOf="@+id/frameLayout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_to_favs"
+            app:srcCompat="@drawable/ic_star_border_black_36dp" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

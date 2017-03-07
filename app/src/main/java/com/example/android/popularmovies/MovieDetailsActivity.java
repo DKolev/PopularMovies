@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -86,11 +87,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private Movie movieDetails;
 
+    Uri movieUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.movie_details);
+        setContentView(R.layout.movie_details_constraint);
         ButterKnife.bind(this);
+
 
         // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
@@ -125,8 +129,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
         showTrailersAndReviews();
 
         mTrailerRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManagerLinearTrailers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mTrailerRecyclerView.setLayoutManager(layoutManagerLinearTrailers);
+        // Getting the current orientation of the device
+        int orientation = this.getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            RecyclerView.LayoutManager layoutManagerLinearTrailers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            mTrailerRecyclerView.setLayoutManager(layoutManagerLinearTrailers);
+        } else {
+
+            RecyclerView.LayoutManager layoutManagerLinearTrailers = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mTrailerRecyclerView.setLayoutManager(layoutManagerLinearTrailers);
+        }
 
         mReviewRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManagerLinearReviews = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -286,9 +299,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
         contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_OVERVIEW, overview);
 
-        Uri uri = getContentResolver().insert(FavMoviesContract.FavMoviesEntry.CONTENT_URI, contentValues);
+        movieUri= getContentResolver().insert(FavMoviesContract.FavMoviesEntry.CONTENT_URI, contentValues);
 
-        if (uri != null) {
+        if (movieUri != null) {
             Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
 

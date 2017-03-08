@@ -2,12 +2,8 @@ package com.example.android.popularmovies.utilities;
 
 import android.net.Uri;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
 
 /**
  * Created by Kolev on 26-Dec-16.
@@ -15,47 +11,61 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    final static String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/movie/";
+    private final static String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/movie/";
 
-//    final static int MOVIE_ID = MovieDetailsActivity.MOVIE_ID;
-//
-//    final static String MOVIE_TRAILERS_URL_ = MOVIE_ID + "/videos?";
+    private final static String VIDEOS = "videos";
 
-    final static String QUERY_POPULAR = "popular";
+    private final static String REVIEWS = "reviews";
 
-    final static String QUERY_TOP_RATED = "top_rated";
+    private final static String QUERY_POPULAR = "popular";
 
-    final static String API_KEY = "api_key";
+    private final static String QUERY_TOP_RATED = "top_rated";
 
-    final static String ACTUAL_KEY = "d03767a891a06d9289296f6c08a79f81";
+    private final static String API_KEY = "api_key";
 
-    final static String LANGUAGE = "language";
+    private final static String ACTUAL_KEY = "d03767a891a06d9289296f6c08a79f81";
 
-    final static String ACTUAL_LANGUAGE = "en-US";
+    private final static String LANGUAGE = "language";
 
-    final static String PAGE = "page";
+    private final static String ACTUAL_LANGUAGE = "en-US";
+
+    private final static String PAGE = "page";
 
     private static int actual_page = 1;
 
-    ///TODO Make the page number variable to change ...
-//    final static int PAGE_NUMBER = 1;
+    public static URL buildMovieTrailersUrlEndpoint () {
+        Uri buildUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
+                .appendEncodedPath(VIDEOS)
+                .appendQueryParameter(API_KEY, ACTUAL_KEY)
+                .appendQueryParameter(LANGUAGE, ACTUAL_LANGUAGE)
+                .build();
 
-//    public static URL buildMovieTrailersUrl () {
-//        Uri buildUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
-//                .appendPath(MOVIE_TRAILERS_URL_)
-//                .appendQueryParameter(API_KEY, ACTUAL_KEY)
-//                .appendQueryParameter(LANGUAGE, ACTUAL_LANGUAGE)
-//                .build();
-//
-//        URL movieTrailersUrl = null;
-//        try {
-//            movieTrailersUrl = new URL(buildUri.toString());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return movieTrailersUrl;
-//    }
+        URL movieTrailersUrl = null;
+        try {
+            movieTrailersUrl = new URL(buildUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return movieTrailersUrl;
+    }
+
+    public static URL buildMovieReviewsUrlEndpoint () {
+        Uri buildUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
+                .appendPath(REVIEWS)
+                .appendQueryParameter(API_KEY, ACTUAL_KEY)
+                .appendQueryParameter(LANGUAGE, ACTUAL_LANGUAGE)
+                .build();
+
+        URL movieReviewsUrl = null;
+        try {
+            movieReviewsUrl = new URL(buildUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return movieReviewsUrl;
+    }
 
     public static URL buildPopularMoviesUrl() {
         Uri builtUri = Uri.parse(MOVIE_DB_BASE_URL).buildUpon()
@@ -94,29 +104,4 @@ public class NetworkUtils {
         return topRatedMoviesUrl;
     }
 
-    /**
-     * This method returns the entire result from the HTTP response.
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response.
-     * @throws IOException Related to network and stream reading
-     */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
-            }
-        } finally {
-            urlConnection.disconnect();
-        }
-    }
 }

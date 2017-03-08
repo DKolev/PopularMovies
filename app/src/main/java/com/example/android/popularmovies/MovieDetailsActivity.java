@@ -24,10 +24,12 @@ import com.example.android.popularmovies.reviews.ReviewAdapter;
 import com.example.android.popularmovies.trailers.JSONResponseTrailer;
 import com.example.android.popularmovies.trailers.Trailer;
 import com.example.android.popularmovies.trailers.TrailerAdapter;
+import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.RequestInterface;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,12 +47,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     // Defining some variables
-
-    final static String MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/movie/";
-
-    final static String MOVIE_DB_TRAILER_ENDPOINT_NO_ID = "/videos?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US";
-
-    final static String MOVIE_DB_REVIEW_ENDPOINT_NO_ID = "/reviews?api_key=d03767a891a06d9289296f6c08a79f81&language=en-US&page=1";
 
     final static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
 
@@ -168,14 +164,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void loadJsonTrailers() {
+        // Getting the trailers endpoint
+        URL movieDbTrailerUrlEndpoint = NetworkUtils.buildMovieTrailersUrlEndpoint();
+        // Converting it into a string
+        String movieDbTrailerEndpointString = String.valueOf(movieDbTrailerUrlEndpoint);
+        // Splitting the string to extract the base url
+        String[] splittedUrl = movieDbTrailerEndpointString.split("videos");
+        String baseUrl = splittedUrl[0];
 
-        String baseUrl = MOVIE_DB_BASE_URL;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RequestInterface request = retrofit.create(RequestInterface.class);
-        String trailersEndPoint =  MOVIE_ID + MOVIE_DB_TRAILER_ENDPOINT_NO_ID;
+        String trailersEndPoint =  MOVIE_ID + "/videos" + splittedUrl[1];
         Call<JSONResponseTrailer> call = request.getJSONTrailer(trailersEndPoint);
         call.enqueue(new retrofit2.Callback<JSONResponseTrailer>() {
             @Override
@@ -208,13 +210,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void loadJSONReviews () {
-        String baseUrl = MOVIE_DB_BASE_URL;
+        // Getting the trailers endpoint
+        URL movieDbReviewsUrlEndpoint = NetworkUtils.buildMovieReviewsUrlEndpoint();
+        // Converting it into a string
+        String movieDbReviewsEndpointString = String.valueOf(movieDbReviewsUrlEndpoint);
+        // Splitting the string to extract the base url
+        String[] splittedUrl = movieDbReviewsEndpointString.split("reviews");
+        String baseUrl = splittedUrl[0];
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RequestInterface request = retrofit.create(RequestInterface.class);
-        String reviewEndPoint = MOVIE_ID + MOVIE_DB_REVIEW_ENDPOINT_NO_ID;
+        String reviewEndPoint = MOVIE_ID + "/reviews" + splittedUrl[1];
         Log.d(String.valueOf(MovieDetailsActivity.this), " endpoint is " + reviewEndPoint);
         Call<JSONResponseReview> call = request.getJSONReview(reviewEndPoint);
         call.enqueue(new retrofit2.Callback<JSONResponseReview>() {

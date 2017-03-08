@@ -23,7 +23,7 @@ public class NetworkUtils {
 
     private final static String API_KEY = "api_key";
 
-    private final static String ACTUAL_KEY = "d03767a891a06d9289296f6c08a79f81";
+    private final static String ACTUAL_KEY = "";
 
     private final static String LANGUAGE = "language";
 

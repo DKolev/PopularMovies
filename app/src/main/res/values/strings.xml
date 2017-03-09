@@ -22,4 +22,7 @@
     <string name="warning_dialog_msg_all_movies">Delete all movies from your Favorites list?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="in_favorites">In Favorites</string>
+    <string name="successfully_added">Movie successfully added to favorites</string>
+    <string name="already_in_favorites">Movie is already in favorites</string>
 </resources>

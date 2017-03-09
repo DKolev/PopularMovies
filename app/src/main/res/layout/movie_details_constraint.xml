@@ -217,15 +217,14 @@
             android:id="@+id/fav_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="9dp"
             android:onClick="addToFavorites"
-            app:layout_constraintHorizontal_bias="0.562"
-            app:layout_constraintLeft_toRightOf="@+id/frameLayout"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_to_favs"
-            app:srcCompat="@drawable/ic_star_border_black_36dp" />
+            app:srcCompat="@drawable/ic_star_border_black_36dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/add_to_favs"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/add_to_favs" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

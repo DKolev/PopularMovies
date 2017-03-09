@@ -333,13 +333,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         contentValues.put(FavMoviesEntry.MOVIE_OVERVIEW, overview);
 
         if(isFavorite()) {
-            Toast.makeText(this, "Movie is already in favorites", Toast.LENGTH_LONG).show();
-            mAddToFavs.setText("In Favorites");
+            Toast.makeText(this, R.string.already_in_favorites, Toast.LENGTH_LONG).show();
+            mAddToFavs.setText(R.string.in_favorites);
         } else {
-            Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.successfully_added, Toast.LENGTH_LONG).show();
             movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
-            mAddToFavs.setText("In Favorites");
+            mAddToFavs.setText(R.string.in_favorites);
         }
 
     }

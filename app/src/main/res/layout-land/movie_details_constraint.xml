@@ -214,7 +214,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/add_to_favorites"
+            tools:text="@string/add_to_favorites"
             app:layout_constraintTop_toBottomOf="@+id/movie_vote_average"
             app:layout_constraintLeft_toLeftOf="@+id/movie_release_data"
             app:layout_constraintRight_toRightOf="@+id/movie_release_data" />

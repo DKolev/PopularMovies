@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.popularmovies.data.FavMoviesContract;
+import com.example.android.popularmovies.data.FavMoviesContract.FavMoviesEntry;
 import com.example.android.popularmovies.movies.Movie;
 import com.example.android.popularmovies.reviews.JSONResponseReview;
 import com.example.android.popularmovies.reviews.Review;
@@ -57,26 +58,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
     public static String MOVIE_ID;
 
     // Binding views with ButterKnife
-    @BindView(R.id.movie_title) TextView mTitleTextView;
-    @BindView(R.id.movie_release_data) TextView mReleaseDateTextView;
-    @BindView(R.id.movie_poster) ImageView mPosterImageView;
-    @BindView(R.id.movie_vote_average) TextView mVoteAverageTextView;
-    @BindView(R.id.movie_plot_synopsis) TextView mMovieOverviewTextView;
-    @BindView(R.id.poster_loading_indicator) ProgressBar mProgressBar;
-    @BindView(R.id.error_loading_poster) TextView mErrorLoadingPoster;
-    @BindView(R.id.fav_star) ImageView mFavStarImageView;
+    @BindView(R.id.movie_title)
+    TextView mTitleTextView;
+    @BindView(R.id.movie_release_data)
+    TextView mReleaseDateTextView;
+    @BindView(R.id.movie_poster)
+    ImageView mPosterImageView;
+    @BindView(R.id.movie_vote_average)
+    TextView mVoteAverageTextView;
+    @BindView(R.id.movie_plot_synopsis)
+    TextView mMovieOverviewTextView;
+    @BindView(R.id.poster_loading_indicator)
+    ProgressBar mProgressBar;
+    @BindView(R.id.error_loading_poster)
+    TextView mErrorLoadingPoster;
+    @BindView(R.id.fav_star)
+    ImageView mFavStarImageView;
     private Context context;
 
-    @BindView(R.id.movie_trailer_recycler_view) RecyclerView mTrailerRecyclerView;
+    @BindView(R.id.movie_trailer_recycler_view)
+    RecyclerView mTrailerRecyclerView;
     private TrailerAdapter mTrailerAdapter;
     private ArrayList<Trailer> trailerList;
 
-    @BindView(R.id.movie_review_recycler_view) RecyclerView mReviewRecyclerView;
+    @BindView(R.id.movie_review_recycler_view)
+    RecyclerView mReviewRecyclerView;
     private ReviewAdapter mReviewAdapter;
     private ArrayList<Review> reviewList;
 
-    @BindView(R.id.trailers_count) TextView mTrailersCount;
-    @BindView(R.id.reviews_count) TextView mReviewsCount;
+    @BindView(R.id.trailers_count)
+    TextView mTrailersCount;
+    @BindView(R.id.reviews_count)
+    TextView mReviewsCount;
 
     static final String TRAILERS_KEY = "trailersKey";
     static final String REVIEWS_KEY = "reviewsKey";
@@ -91,6 +104,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.movie_details_constraint);
         ButterKnife.bind(this);
 
+        checkIfMovieIsInDatabase();
 
         // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
@@ -177,7 +191,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RequestInterface request = retrofit.create(RequestInterface.class);
-        String trailersEndPoint =  MOVIE_ID + "/videos" + splittedUrl[1];
+        String trailersEndPoint = MOVIE_ID + "/videos" + splittedUrl[1];
         Call<JSONResponseTrailer> call = request.getJSONTrailer(trailersEndPoint);
         call.enqueue(new retrofit2.Callback<JSONResponseTrailer>() {
             @Override
@@ -209,7 +223,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void loadJSONReviews () {
+    private void loadJSONReviews() {
         // Getting the trailers endpoint
         URL movieDbReviewsUrlEndpoint = NetworkUtils.buildMovieReviewsUrlEndpoint();
         // Converting it into a string
@@ -301,14 +315,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_TITLE, title);
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_ID, MOVIE_ID);
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_POSTER_PATH, poster_path);
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_RELEASE_DATE, release_date);
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
-        contentValues.put(FavMoviesContract.FavMoviesEntry.MOVIE_OVERVIEW, overview);
+        contentValues.put(FavMoviesEntry.MOVIE_TITLE, title);
+        contentValues.put(FavMoviesEntry.MOVIE_ID, MOVIE_ID);
+        contentValues.put(FavMoviesEntry.MOVIE_POSTER_PATH, poster_path);
+        contentValues.put(FavMoviesEntry.MOVIE_RELEASE_DATE, release_date);
+        contentValues.put(FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
+        contentValues.put(FavMoviesEntry.MOVIE_OVERVIEW, overview);
 
-        movieUri= getContentResolver().insert(FavMoviesContract.FavMoviesEntry.CONTENT_URI, contentValues);
+        movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
 
         if (movieUri != null) {
             Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
@@ -317,4 +331,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
     }
 
+    public void checkIfMovieIsInDatabase() {
+        String[] projection = {FavMoviesEntry.MOVIE_TITLE};
+        String selection = FavMoviesEntry.MOVIE_ID + "=? ";
+        String [] selectionArgs = {MOVIE_ID};
+
+        Cursor cursor = getContentResolver().query(FavMoviesEntry.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                null);
+
+        if (cursor != null) {
+            mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
+        }
+        cursor.close();
+    }
 }

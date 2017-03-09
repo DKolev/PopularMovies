@@ -206,7 +206,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="10dp"
-            android:text="@string/add_to_favorites"
+            tools:text="@string/add_to_favorites"
             app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintLeft_toRightOf="@+id/frameLayout"
             app:layout_constraintRight_toRightOf="parent"

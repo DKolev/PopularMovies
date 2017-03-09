@@ -74,6 +74,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView mErrorLoadingPoster;
     @BindView(R.id.fav_star)
     ImageView mFavStarImageView;
+    @BindView(R.id.add_to_favs) TextView mAddToFavs;
     private Context context;
 
     @BindView(R.id.movie_trailer_recycler_view)
@@ -97,6 +98,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private Movie movieDetails;
 
     Uri movieUri;
+    Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.movie_details_constraint);
         ButterKnife.bind(this);
 
-        checkIfMovieIsInDatabase();
+        mAddToFavs.setText(R.string.add_to_favorites);
 
         // Setting the Loading Indicator to VISIBLE
         mProgressBar.setVisibility(View.VISIBLE);
@@ -155,6 +157,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManagerLinearReviews = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mReviewRecyclerView.setLayoutManager(layoutManagerLinearReviews);
 
+        checkIfMovieIsInDatabase();
+
+        if(isFavorite()) {
+            mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
+            mAddToFavs.setText("In Favorites");
+        } else {
+            mFavStarImageView.setImageResource(R.drawable.ic_star_border_black_36dp);
+        }
     }
 
     @Override
@@ -322,29 +332,42 @@ public class MovieDetailsActivity extends AppCompatActivity {
         contentValues.put(FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
         contentValues.put(FavMoviesEntry.MOVIE_OVERVIEW, overview);
 
-        movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
-
-        if (movieUri != null) {
+        if(isFavorite()) {
+            Toast.makeText(this, "Movie is already in favorites", Toast.LENGTH_LONG).show();
+            mAddToFavs.setText("In Favorites");
+        } else {
             Toast.makeText(this, "Movie successfully added to favorites", Toast.LENGTH_LONG).show();
+            movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
-
+            mAddToFavs.setText("In Favorites");
         }
+
     }
 
     public void checkIfMovieIsInDatabase() {
         String[] projection = {FavMoviesEntry.MOVIE_TITLE};
         String selection = FavMoviesEntry.MOVIE_ID + "=? ";
         String [] selectionArgs = {MOVIE_ID};
+        Log.v(String.valueOf(this), " movie id is " + MOVIE_ID);
 
-        Cursor cursor = getContentResolver().query(FavMoviesEntry.CONTENT_URI,
+        mCursor = getContentResolver().query(FavMoviesEntry.CONTENT_URI,
                 projection,
                 selection,
                 selectionArgs,
                 null);
 
-        if (cursor != null) {
+
+        if (mCursor != null && mCursor.getCount() != 0) {
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
         }
-        cursor.close();
+        mCursor.close();
+    }
+
+    public boolean isFavorite() {
+        if(mCursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

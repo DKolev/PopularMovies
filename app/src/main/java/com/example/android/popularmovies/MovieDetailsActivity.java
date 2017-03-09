@@ -161,7 +161,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         if(isFavorite()) {
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
-            mAddToFavs.setText("In Favorites");
+            mAddToFavs.setText(R.string.in_favorites);
         } else {
             mFavStarImageView.setImageResource(R.drawable.ic_star_border_black_36dp);
         }
@@ -335,6 +335,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // if the movie is already in favorites, display a message
         if(isFavorite()) {
             Toast.makeText(this, R.string.already_in_favorites, Toast.LENGTH_LONG).show();
+
+            // if it is not, add it, display a message and change the text of mAddToFavs TextView to "In favorites"
         } else {
             Toast.makeText(this, R.string.successfully_added, Toast.LENGTH_LONG).show();
             movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
@@ -345,6 +347,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
 
+    // Check if the movie is already in the database by making a single item query
     public void checkIfMovieIsInDatabase() {
         String[] projection = {FavMoviesEntry.MOVIE_TITLE};
         String selection = FavMoviesEntry.MOVIE_ID + "=? ";
@@ -358,12 +361,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 null);
 
 
+        // if mCursor is not null, then the movie is in the database so I change the icon to black star
         if (mCursor != null && mCursor.getCount() != 0) {
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
         }
+        // Closing the cursor
         mCursor.close();
     }
 
+    // A method I'm using to see if the movie is already in favorites (then use in AddToFavorites and onCreate)
     public boolean isFavorite() {
         if(mCursor.getCount() > 0) {
             return true;

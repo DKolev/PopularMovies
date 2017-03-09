@@ -115,8 +115,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mSortOption.setText(savedInstanceState.getString(SORT_OPTION_KEY));
-        movieList = savedInstanceState.getParcelableArrayList(MOVIE_LIST_KEY);
+        // Getting a reference to the ConnectivityManager to check state of network connectivity
+        mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Getting details on the currently active default data network
+        mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+        // If there is a network connection, restore the values of mSortOption and movieList
+        if (mNetworkInfo != null && mNetworkInfo.isConnected()) {
+            mSortOption.setText(savedInstanceState.getString(SORT_OPTION_KEY));
+            movieList = savedInstanceState.getParcelableArrayList(MOVIE_LIST_KEY);
+        } else {
+            // If there is no connection, show the error message
+            showErrorMessage();
+        }
 
         super.onRestoreInstanceState(savedInstanceState);
 
@@ -275,12 +285,6 @@ public class MainActivity extends AppCompatActivity {
         // If the movieList is not null, then it is restored from onRestoreInstanceState and I'm passing it to a
         // new instance of mAdapter (also setting the setOnItemClickListener). And if the movieList is null,
         // then I'm calling loadJSONPopularMovies() method.
-        // Not sure if this is the right way but without it when the activity is restored with the correct movieList,
-        // I can't get to the MovieDetails activity.
-        //
-        // IF THERE IS ANOTHER AND BETTER WAY TO DO THIS (I mean skipping the new request to the API on device rotation,
-        // please let me know.
-        //
 
         if (movieList != null) {
             Context context = getApplicationContext();

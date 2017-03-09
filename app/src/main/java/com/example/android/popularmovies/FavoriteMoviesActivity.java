@@ -68,11 +68,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements LoaderM
             mRecyclerView.setLayoutManager(gridLayout);
         }
 
-//        // Creating a new verticalLinearLayout with GridLayout and 3 columns
-//        RecyclerView.LayoutManager verticalLinearLayout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        // Setting the verticalLinearLayout to the RecyclerView
-//        mRecyclerView.setLayoutManager(verticalLinearLayout);
-
         mAdapter = new CustomFavMoviesCursorAdapter(this, cursor);
         mRecyclerView.setAdapter(mAdapter);
 

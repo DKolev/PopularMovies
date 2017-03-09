@@ -332,9 +332,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         contentValues.put(FavMoviesEntry.MOVIE_VOTE_AVERAGE, vote_average);
         contentValues.put(FavMoviesEntry.MOVIE_OVERVIEW, overview);
 
+        // if the movie is already in favorites, display a message
         if(isFavorite()) {
             Toast.makeText(this, R.string.already_in_favorites, Toast.LENGTH_LONG).show();
-            mAddToFavs.setText(R.string.in_favorites);
         } else {
             Toast.makeText(this, R.string.successfully_added, Toast.LENGTH_LONG).show();
             movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
@@ -343,6 +343,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
     }
+
 
     public void checkIfMovieIsInDatabase() {
         String[] projection = {FavMoviesEntry.MOVIE_TITLE};

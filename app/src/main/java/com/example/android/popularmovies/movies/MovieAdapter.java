@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.movies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         @BindView(R.id.movie_poster) ImageView poster;
         @BindView(R.id.movie_vote_average) TextView vote_average;
         @BindView(R.id.movie_plot_synopsis) TextView plot_synopsis;
+
 
         public ViewHolder(final View itemView) {
             super(itemView);

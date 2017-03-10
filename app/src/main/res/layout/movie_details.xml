@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:contentDescription="@string/movie_poster"
                     android:id="@+id/movie_poster"
                     android:layout_width="180dp"
                     android:layout_height="270dp"
@@ -37,14 +38,14 @@
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:text="@string/problem_loading_movie_poster"
                     android:textAlignment="center"
-                    android:visibility="invisible"
-                    android:text="@string/problem_loading_movie_poster"/>
+                    android:visibility="invisible" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -52,9 +53,10 @@
                     android:id="@+id/movie_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
                     android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
                     android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold"
@@ -76,7 +78,6 @@
                         android:id="@+id/movie_release_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
                         android:textAlignment="center"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textStyle="bold"
@@ -106,6 +107,23 @@
                         android:textStyle="bold"
                         tools:text="4.3" />
 
+                    <TextView
+                        android:id="@+id/add_to_favs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_to_favorites"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:textAppearanceSmall" />
+
+                    <ImageView
+                        android:contentDescription="@string/star_image"
+                        android:id="@+id/fav_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_star_border_black_36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="addToFavorites"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -115,12 +133,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/overview"
                 android:textAppearance="?android:textAppearanceSmall" />
 
@@ -130,6 +151,60 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:text="Plot Synopsis" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/trailers"
+                    android:textAppearance="?android:textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/trailers_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    tools:text="(0)" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movie_trailer_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/reviews" />
+
+                <TextView
+                    android:id="@+id/reviews_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    tools:text="(6)" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movie_review_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
         </LinearLayout>
 
     </LinearLayout>

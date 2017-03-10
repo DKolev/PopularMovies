@@ -11,7 +11,7 @@
         android:id="@+id/sort_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="5dp"
         android:textAlignment="center"
         android:textAppearance="?android:textAppearanceMedium"
         android:fontFamily="sans-serif-condensed"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/error_message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textAlignment="center"

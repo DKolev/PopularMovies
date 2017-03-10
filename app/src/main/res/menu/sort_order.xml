@@ -3,12 +3,17 @@
 
     <item
         android:id="@+id/sort_by_popularity"
-        android:title="Sort by popularity"
+        android:title="@string/sort_by_popularity"
         android:orderInCategory="1"/>
 
     <item
         android:id="@+id/sort_by_rating"
-        android:title="Sort by rating"
+        android:title="@string/sort_by_rating"
         android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/show_favorites"
+        android:title="@string/show_favorites"
+        android:orderInCategory="3" />
 
 </menu>

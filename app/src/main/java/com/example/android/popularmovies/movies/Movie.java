@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.movies;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +10,7 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
+    private String id;
     private String title;
     private String release_date;
     private String poster_path;
@@ -19,12 +20,17 @@ public class Movie implements Parcelable {
     public Movie() {
     }
 
-    public Movie(String title, String release_date, String poster_path, String vote_average, String overview) {
+    public Movie(String id, String title, String release_date, String poster_path, String vote_average, String overview) {
+        this.id = id;
         this.title = title;
         this.release_date = release_date;
         this.poster_path = poster_path;
         this.vote_average = vote_average;
         this.overview = overview;
+    }
+
+    public String getMovieId() {
+        return id;
     }
 
     public String getTitle() {
@@ -54,6 +60,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.title);
         dest.writeString(this.release_date);
         dest.writeString(this.poster_path);
@@ -62,6 +69,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        this.id = in.readString();
         this.title = in.readString();
         this.release_date = in.readString();
         this.poster_path = in.readString();

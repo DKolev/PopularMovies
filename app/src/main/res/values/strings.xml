@@ -1,10 +1,28 @@
 <resources>
     <string name="app_name">Popular Movies</string>
-    <string name="error_message">No internet connection. Please try again!</string>
+    <string name="error_message">No internet connection. Please try again! \n\n  You can still view your Favorite movies while offline.</string>
     <string name="popular_movies_on_themoviedb_org">POPULAR movies on themoviedb.org</string>
     <string name="top_rated_movies_on_the_moviedb_org">TOP RATED movies on themoviedb.org</string>
     <string name="problem_loading_movie_poster">Problem loading movie poster</string>
     <string name="release_date">Release Date:</string>
     <string name="rating">Rating:</string>
     <string name="overview">Overview:</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+    <string name="out_of_10"> / 10</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="my_favorite_movies">My favorite movies</string>
+    <string name="sort_by_popularity">Sort by popularity</string>
+    <string name="sort_by_rating">Sort by rating</string>
+    <string name="show_favorites">Show favorites</string>
+    <string name="delete">Delete all</string>
+    <string name="share">Share</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="star_image">Image of a star which adds the movie to the local Favorites list</string>
+    <string name="warning_dialog_msg_all_movies">Delete all movies from your Favorites list?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="in_favorites">In Favorites</string>
+    <string name="successfully_added">Movie successfully added to favorites</string>
+    <string name="already_in_favorites">Movie is already in favorites</string>
 </resources>

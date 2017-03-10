@@ -21,9 +21,6 @@ import com.example.android.popularmovies.movies.Movie;
 import com.example.android.popularmovies.movies.MovieAdapter;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.RequestInterface;
-import com.facebook.stetho.DumperPluginsProvider;
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.dumpapp.DumperPlugin;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,14 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        // Initialising Stetho
-        final Context context = this;
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(context)
-                .enableDumpapp(new SampleDumperPluginsProvider(context))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context))
-                .build());
 
         // Setting a fixed size for the child layout
         mRecyclerView.setHasFixedSize(true);
@@ -380,20 +369,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private class SampleDumperPluginsProvider implements DumperPluginsProvider {
-        private final Context mContext;
-        public SampleDumperPluginsProvider(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public Iterable<DumperPlugin> get() {
-            ArrayList<DumperPlugin> plugins = new ArrayList<>();
-            for (DumperPlugin defaultPlugin : Stetho.defaultDumperPluginsProvider(mContext).get()) {
-                plugins.add(defaultPlugin);
-            }
-            return plugins;
-        }
-    }
 }

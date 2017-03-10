@@ -342,6 +342,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
             mAddToFavs.setText(R.string.in_favorites);
+            checkIfMovieIsInDatabase();
         }
 
     }

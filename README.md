@@ -1,3 +1,3 @@
-# PopularMovies
+# PopularMovies (Stage 1 & 2)
 
-This is my first project for the Udacity's Android Developer Nanodegree by Google.
+This repo combines the first and second project in the Android Developer Nanodegree from Udacity.

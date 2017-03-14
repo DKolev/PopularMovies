@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.FavMoviesContract.FavMoviesEntry;
+import com.example.android.popularmovies.data.MyQueryHandler;
 import com.example.android.popularmovies.movies.Movie;
 import com.example.android.popularmovies.reviews.JSONResponseReview;
 import com.example.android.popularmovies.reviews.Review;
@@ -105,6 +107,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details_constraint);
         ButterKnife.bind(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mAddToFavs.setText(R.string.add_to_favorites);
 
@@ -302,7 +307,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     String urlToFollow = reviewList.get(position).getUrl();
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(urlToFollow));
-                    startActivity(intent);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
+
                 }
             });
 
@@ -338,8 +346,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             // if it is not, add it, display a message and change the text of mAddToFavs TextView to "In favorites"
         } else {
+            // Here it was suggested by my reviewer to either put the insert operation in an AsyncTask or
+            // to use AsyncQueryHandler.
+            MyQueryHandler myQueryHandler = new MyQueryHandler(getContentResolver());
+            myQueryHandler.startInsert(1, null, FavMoviesEntry.CONTENT_URI, contentValues);
+
             Toast.makeText(this, R.string.successfully_added, Toast.LENGTH_LONG).show();
-            movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
+//            movieUri = getContentResolver().insert(FavMoviesEntry.CONTENT_URI, contentValues);
             mFavStarImageView.setImageResource(R.drawable.ic_star_black_36dp);
             mAddToFavs.setText(R.string.in_favorites);
             checkIfMovieIsInDatabase();
@@ -360,7 +373,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 selection,
                 selectionArgs,
                 null);
-
 
         // if mCursor is not null, then the movie is in the database so I change the icon to black star
         if (mCursor != null && mCursor.getCount() != 0) {

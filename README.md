@@ -9,9 +9,9 @@ The app uses The MovieDB API to fetch and display the latest movies based on a d
 
 Features:
  - Display grid of movies
- - Play movie trailers (in external app - Youtube)
+ - Play movie trailers (in an external app - Youtube)
  - Read user reviews
- - Mark a movie as favorite (adding it to a personal favorite list)
+ - Mark a movie as a favorite (adding it to a personal favorite list)
  
  Full project specification and requirements rubric: https://review.udacity.com/#!/rubrics/67/view
  
